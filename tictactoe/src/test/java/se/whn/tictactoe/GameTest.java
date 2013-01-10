@@ -1,20 +1,16 @@
 package se.whn.tictactoe;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class GameTest extends TestCase {
-
-    public GameTest(String testName) {
-	super(testName);
-    }
-
-
-    public static Test suite() {
-	return new TestSuite(GameTest.class);
-    }
+/**
+ * Unit tests for {@link Game}
+ */
+@RunWith(JUnit4.class)
+public class GameTest {
 
     private MockPlayer mcPlayer() {
 	return new MockPlayer();
@@ -24,6 +20,7 @@ public class GameTest extends TestCase {
 	return new Game(mcPlayer(), mcPlayer());
     }
 
+    @Test
     public void testPlayRoundCallsPlayer() {
 	MockPlayer p1 = mcPlayer();
 	MockPlayer p2 = mcPlayer();
@@ -39,7 +36,7 @@ public class GameTest extends TestCase {
 
     }
 
-
+    @Test
     public void testPlayTwoRounds() {
 	MockPlayer p1 = mcPlayer();
 	MockPlayer p2 = mcPlayer();
@@ -58,6 +55,7 @@ public class GameTest extends TestCase {
 		     1, p2.turns);
     }
 
+    @Test
     public void testPlayTwoRoundsNoDuplicates() {
 	MockPlayer p1 = mcPlayer();
 	MockPlayer p2 = mcPlayer();
@@ -75,7 +73,7 @@ public class GameTest extends TestCase {
 		   g.isStartOfRound());
     }
 
-
+    @Test
     public void testStartOfRoundAtGameStart() {
 	Game g = mcGame();
 	
@@ -83,6 +81,7 @@ public class GameTest extends TestCase {
 		   g.isStartOfRound());
     }
 
+    @Test
     public void testRoundInProgress() {
 	MockPlayer p1 = mcPlayer();
 	MockPlayer p2 = mcPlayer();
@@ -96,7 +95,7 @@ public class GameTest extends TestCase {
 		    g.isStartOfRound());
     }
 
-    
+    @Test
     public void testAfterTwoMovesStartNewRound() {
 	MockPlayer p1 = mcPlayer();
 	MockPlayer p2 = mcPlayer();
@@ -113,12 +112,14 @@ public class GameTest extends TestCase {
     }
 
 
+    @Test
     public void testReadyInitialy() {
 	Game g = mcGame();
 	assertTrue("Once the game is created it should be ready",
 		   g.ready());
     }
 
+    @Test
     public void testNotReadyWhileTakingTurn() {
 	Game g = mcGame();
 
@@ -128,6 +129,7 @@ public class GameTest extends TestCase {
 		    g.ready());
     }
 
+    @Test
     public void testReadyAfterPlaced() {
 	MockPlayer p1 = mcPlayer();
 	MockPlayer p2 = mcPlayer();
