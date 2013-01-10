@@ -77,7 +77,7 @@ public class Grid {
     }
 
 
-    public Line getVerticalLine(int y){
+    public Line getHorizontalLine(int y){
 	Square[] line = new Square[side];
 
 	for(int x = 0; x < side; x++) {
@@ -87,7 +87,7 @@ public class Grid {
 	return new Line(line);
     }
 
-    public Line getHorizontalLine(int x) {
+    public Line getVerticalLine(int x) {
 	Square[] line = new Square[side];
 
 	for(int y = 0; y < side; y++) {
@@ -112,8 +112,9 @@ public class Grid {
 		line[i] = getSquare(i, i);
 	    }
 	} else if(d == 2) {
+            int offset = side - 1;
 	    for(int i = 0; i < side; i++) {
-		line[i] = getSquare(side - i, i);
+		line[i] = getSquare(offset - i, i);
 	    }
 	}
 	return new Line(line);
