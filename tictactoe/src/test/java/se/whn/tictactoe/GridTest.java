@@ -154,4 +154,33 @@ public class GridTest
         assertArrayEquals("The second diagonal line should be i=6, 4, 2",
                           expected, inds);
     }
+
+    @Test
+    public void testGetHorizontalLines() {
+        Grid g = mcGrid();
+        Line[] lines = g.getHorizontalLines();
+
+        assertEquals("There are three horizontal lines in a 3x3 grid",
+                     3, lines.length);
+    }
+
+    @Test
+    public void testGetVerticalLines() {
+        Grid g = mcGrid();
+        Line[] lines = g.getVerticalLines();
+
+        assertEquals("There are three vertical lines in a 3x3 grid",
+                     3, lines.length);
+
+    }
+
+    @Test
+    public void testGetDiagonalLines() {
+        Grid g = mcGrid();
+        Line[] lines = g.getDiagonalLines();
+
+        assertEquals("There are exactly two diagonals",
+                     2, lines.length);
+
+    }
 }
