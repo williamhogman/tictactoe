@@ -1,33 +1,17 @@
 package se.whn.tictactoe;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
+
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
 /**
- * Unit tests for grid class
+ * Unit tests for {@link Grid}
  */
+@RunWith(JUnit4.class)
 public class GridTest
-    extends TestCase
 {
-    /**
-     * Create the test case
-     *
-     * @param testName name of the test case
-     */
-    public GridTest( String testName )
-    {
-        super( testName );
-    }
-
-    /**
-     * @return the suite of tests being tested
-     */
-    public static Test suite()
-    {
-        return new TestSuite( GridTest.class );
-    }
-
 
     private Grid mcGrid() {
 	return new Grid();
@@ -41,22 +25,26 @@ public class GridTest
 	return new Player();
     }
 
+    @Test
     public void testOccupySquare() {
 	Grid g = mcGrid();
     }
 
 
+    @Test
     public void testNotInitialyFull() {
 	Grid g = mcGrid();
 	assertFalse(g.isFull());
     }
 
+    @Test
     public void testFilledGrid() {
 	Grid g = oneSqGrid();
 	g.occupy(0, mcPlayer());
 	assertTrue(g.isFull());
     }
 
+    @Test
     public void testGetUnoccupied() {
 	Grid g = oneSqGrid();
 	
@@ -65,8 +53,8 @@ public class GridTest
 		     1, s.length);
     }
 
+    @Test
     public void testGetUnoccupiedNoSquaresLeft() {	
-
 	Grid g = oneSqGrid();
 
 	g.occupy(0, mcPlayer());
@@ -76,12 +64,14 @@ public class GridTest
 		     "should 0 unoccupied squares", 0, s.length);
     }
 
+    @Test
     public void testOccupy() {
 	Grid g = mcGrid();
 	assertTrue("Occupying in an empty grid should be successful",
 		   g.occupy(0, 0, mcPlayer()));
     }
 
+    @Test
     public void testOccupyFilled() {
 	Grid g = mcGrid();
 	
@@ -91,7 +81,7 @@ public class GridTest
 		    g.occupy(0, 0, mcPlayer()));
     }
 
-
+    @Test
     public void testOccupyIsSymetrical() {
 	Grid g = mcGrid();
 
@@ -102,13 +92,14 @@ public class GridTest
 		    );
     }
 
-
+    @Test
     public void testGetSquare() {
 	Grid g = mcGrid();
 
 	Square sq = g.getSquare(0);
     }
 
+    @Test
     public void testGetSquareIsSymmetrical() {
 	Grid g = mcGrid();
 
@@ -122,36 +113,45 @@ public class GridTest
 	}
     }
 
+    @Test(expected = IndexOutOfBoundsException.class)
     public void testGetSquareOutOfBounds() {
 	Grid g = oneSqGrid();
-	try {
-	    g.getSquare(1000);
-	} catch(IndexOutOfBoundsException ex) {
-	    assertNotNull(ex);
-	}
+        g.getSquare(1000);
     }
 
+    @Test
     public void testGetVerticalLine() {
 	Grid g = mcGrid();
 	int[] expected = {0, 3, 6};
-	int[] inds = g.getVerticalLine(1).getIndicies();
-
-	for(int i = 0; i < expected.length; i++) {
-	    assertEquals("The indicies have to match with the expected ones",
-			 expected[i], inds[i]);
-	}
+	int[] inds = g.getVerticalLine(0).getIndicies();
+        assertArrayEquals("The first vertical line should i=(0,3,6)",
+                          expected, inds);
     }
 
+    @Test
     public void testGetHorizontalLine() {
 	Grid g = mcGrid();
-	int[] expected = {0, 1 ,2};
-	int[] inds = g.getHorizontalLine(1).getIndicies();
-	for(int i = 0; i < expected.length; i++) {
-	    assertEquals("The indicies have to match with the expect ones",
-			 expected[i], inds[i]);
-	}
-	
+	int[] expected = {0, 1, 2};
+	int[] inds = g.getHorizontalLine(0).getIndicies();
+        assertArrayEquals("The first horizontal line should be i=0, 1, 2",
+                          expected, inds);
     }
 
+    @Test
+    public void testGetFirstDiagonal() {
+        Grid g = mcGrid();
+        int[] expected = {0, 4, 8};
+        int[] inds = g.getDiagonal(1).getIndicies();
+        assertArrayEquals("The first diagonal line should be i=0, 4, 8",
+                          expected, inds);
+    }
 
+    @Test
+    public void testGetSecondDiagonal() {
+        Grid g = mcGrid();
+        int[] expected = {2, 4, 6};
+        int[] inds = g.getDiagonal(2).getIndicies();
+        assertArrayEquals("The second diagonal line should be i=6, 4, 2",
+                          expected, inds);
+    }
 }
