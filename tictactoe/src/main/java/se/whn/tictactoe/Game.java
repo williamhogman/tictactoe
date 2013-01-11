@@ -43,9 +43,8 @@ public class Game {
     }
 
     public void playTurn() {
-	if(waiting) {
-	    // TODO: Throw an exception maybe?
-	    return;
+	if(!ready() || isGameOver()) {
+            throw new RuntimeException("Can't take a turn if the game is over");
 	}
 
 	waiting = true;
@@ -59,7 +58,7 @@ public class Game {
 
     public boolean placePiece(Player p, int square) {
 	if(getActivePlayer() != p) {
-	    //throw new RuntimeError("Not our turn");
+	    throw new RuntimeException("Not our turn");
 	}
 
 	if(grid.occupy(square, p)) {
