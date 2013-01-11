@@ -97,4 +97,34 @@ public class Line {
 	}
 	return indicies;
     }
+
+    public Square[] getUnoccupied() {
+        List<Square> out = new ArrayList<Square>();
+        for(Square s : squares) {
+            if(!s.isOccupied())  {
+                out.add(s);
+            }
+        }
+
+        Square[] arr = new Square[out.size()];
+        return out.toArray(arr);
+    }
+
+    public Square getFirstUnoccupied() {
+        for(Square s : squares) {
+            if(!s.isOccupied()) {
+                return s;
+            }
+        }
+        return null;
+    }
+
+    public boolean hasAny(Player plr) {
+        for(Square s : squares) {
+            if(s.getOccupant() == plr) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
