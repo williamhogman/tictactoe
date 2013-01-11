@@ -1,28 +1,29 @@
 package se.whn.tictactoe;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
 
-public class SquareTest extends TestCase {
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-    public SquareTest(String testName) {
-	super(testName);
-    }
-
-    public static Test suite() {
-	return new TestSuite(SquareTest.class);
-    }
+/**
+ * Tests for the {@link Square} class.
+ */
+@RunWith(JUnit4.class)
+public class SquareTest {
 
     private Square mcSquare() {
 	return new Square(1);
     }
 
+
+    @Test
     public void testEmptyOnCreate() {
 	Square sq = mcSquare();
 	assertFalse(sq.isOccupied());
     }
 
+    @Test
     public void testOccupy() {
 	Square sq = mcSquare();
 
@@ -35,6 +36,7 @@ public class SquareTest extends TestCase {
 		     p);
     }
 
+    @Test
     public void testOccupyTwice() {
 	Square sq = mcSquare();
 	Player p = new Player();
@@ -45,6 +47,7 @@ public class SquareTest extends TestCase {
 	assertFalse(sq.occupy(p));
     }
 
+    @Test
     public void testViewFromMe() {
 	Square sq = mcSquare();
 	Player p = new Player();
@@ -57,6 +60,7 @@ public class SquareTest extends TestCase {
 		     );
     }
 
+    @Test
     public void testViewEmpty() {
 	Square sq = mcSquare();
 	Player p = new Player();
@@ -69,7 +73,7 @@ public class SquareTest extends TestCase {
 		     );
     }
 
-
+    @Test
     public void testViewFromOther() {
 	Square sq = mcSquare();
 	Player p1 = new Player();
@@ -81,7 +85,7 @@ public class SquareTest extends TestCase {
 		     );
     }
 
-
+    @Test
     public void testIndexGetter() {
 	Square sq = new Square(1);
 	assertEquals("Square has the index 1",
