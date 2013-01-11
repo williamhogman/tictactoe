@@ -40,8 +40,10 @@ public class Line {
     }
 
     public boolean isOwnable() {
-        Player candidate = null;
+        return isOwnable(null);
+    }
 
+    public boolean isOwnable(Player candidate) {
         for(Square sq : squares) {
             Player occupant = sq.getOccupant();
 
