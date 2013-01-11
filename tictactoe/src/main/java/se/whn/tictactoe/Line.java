@@ -17,7 +17,7 @@ public class Line {
 
     public Player getOwner() {
 	Player owner = null;
-	for(Square sq: squares) {
+	for(Square sq : squares) {
 	    Player occupant = sq.getOccupant();
 	    if(!sq.isOccupied()) {
 		// line not entirely owned
@@ -34,6 +34,31 @@ public class Line {
 	    }
 	}
 	return owner;
+    }
+
+    public boolean isOwnable() {
+        Player candidate = null;
+
+        for(Square sq : squares) {
+            Player occupant = sq.getOccupant();
+
+            // Unoccupied squares are ignored, because they do not
+            // prevent ownership.
+            if(!sq.isOccupied()) {
+                continue;
+            }
+
+            // If we haven't stored a candidate yet store one
+            if(candidate == null) {
+                candidate = occupant;
+            }
+
+            // If someone other than the candidate owns a square it is unownable.
+            if(candidate != occupant) {
+                return false;
+            }
+        }
+        return true;
     }
 
 
