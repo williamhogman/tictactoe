@@ -142,6 +142,71 @@ public class GameTest {
 		   g.ready());
     }
 
+
+    private Game mcWonGame(MockPlayer winner) {
+        MockPlayer loser = mcPlayer();
+        Game g = new Game(winner, loser);
+
+        int[] winnerMoves = {0, 1, 2};
+        int[] loserMoves = {6, 7};
+
+        for(int i = 0; i < 3; i++) {
+            g.playTurn();
+            winner.doPlace(winnerMoves[i]);
+            if(i < 2) {
+                g.playTurn();
+                loser.doPlace(loserMoves[i]);
+            }
+        }
+        return g;
+    }
+
+    @Test
+    public void testGameIsntOverInitially() {
+        Game g = mcGame();
+
+        assertFalse("The game isn't over upon creation",
+                    g.isGameOver());
+    }
+
+    @Test
+    public void testGetWinner() {
+        MockPlayer plr = mcPlayer();
+
+        Game g = mcWonGame(plr);
+
+        assertSame("We should get the correct winner",
+                   plr, g.getWinner());
+
+    }
+
+    @Test
+    public void testGetWinnerNullInitialy() {
+        Game g = mcGame();
+        assertNull("getWinner is null initially",
+                   g.getWinner());
+    }
+
+    @Test(expected = RuntimeException.class)
+    public void testPlayTurnFailsAfterGameOver() {
+        mcWonGame(mcPlayer()).playTurn();
+    }
+
+
+    @Test(expected = RuntimeException.class)
+    public void testPlacingNotOurTurnFails() {
+        MockPlayer p1 = mcPlayer();
+        MockPlayer p2 = mcPlayer();
+        Game g = new Game(p1, p2);
+
+        g.playTurn();
+
+        // calling do place should result in the turn being advanced so
+        p1.doPlace(0);
+
+        // this should result in an exception
+        p1.doPlace(1);
+    }
 }
 
 class MockPlayer extends Player {
