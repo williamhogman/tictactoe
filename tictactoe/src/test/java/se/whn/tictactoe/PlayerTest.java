@@ -1,19 +1,16 @@
 package se.whn.tictactoe;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import static org.junit.Assert.*;
 
+import org.junit.Test;
+import org.junit.runner.RunWith;
+import org.junit.runners.JUnit4;
 
-public class PlayerTest extends TestCase {
-
-    public PlayerTest(String testName) {
-	super(testName);
-    }
-
-    public static Test suite() {
-	return new TestSuite(PlayerTest.class);
-    }
+/**
+ * Tests for the {@link Player} class.
+ */
+@RunWith(JUnit4.class)
+public class PlayerTest {
 
     private Player mcPlayer() {
 	return new Player();
@@ -23,6 +20,7 @@ public class PlayerTest extends TestCase {
 	return new MockActor();
     }
 
+    @Test
     public void testTurnTaking() {
 	MockActor act = mcActor();
 	Player p1 = new Player(act);
