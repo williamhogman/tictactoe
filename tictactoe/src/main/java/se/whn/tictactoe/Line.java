@@ -1,5 +1,8 @@
 package se.whn.tictactoe;
 
+import java.util.ArrayList;
+import java.util.List;
+
 /**
  * The line class represents a sequence of Squares.
  * Oftentimes these are the horizontal, vertical 
