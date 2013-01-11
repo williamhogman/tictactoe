@@ -61,6 +61,34 @@ public class Line {
         return true;
     }
 
+    /**
+     * Method returning the player a player who can place a single
+     * piece to own the row. If there is no such player then it
+     * returns null.
+     */
+    public Player canPlaceToOwn() {
+        if(!isOwnable()) {
+            return null;
+        }
+
+        int missed = 0;
+        Player candidate = null;
+
+        for(Square sq : squares) {
+            if(!sq.isOccupied()) {
+                missed++;
+            } else {
+                candidate = sq.getOccupant();
+            }
+        }
+
+        // if we miss exactly one we can place exactly one to own it.
+        if(missed == 1) {
+            return candidate;
+        } else {
+            return null;
+        }
+    }
 
     public int[] getIndicies() {
 	int[] indicies = new int[squares.length];

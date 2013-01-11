@@ -144,5 +144,59 @@ public class LineTest
                     l.isOwnable());
     }
 
-    
+    @Test
+    public void testCanPlaceToOwn() {
+        Player p = new Player();
+        Square[] squares = mcSquares();
+
+        squares[0].occupy(p);
+        squares[1].occupy(p);
+
+        Line l = new Line(squares);
+
+        assertEquals("After a player has placed two pieces on a row he should return him",
+                     p, l.canPlaceToOwn());
+    }
+
+    @Test
+    public void testCantPlaceToOwnInitialy() {
+        Player p = new Player();
+
+        Line l = new Line(mcSquares());
+
+        assertNull("We can't initally place to own",
+                   l.canPlaceToOwn());
+    }
+
+    @Test
+    public void testCantPlaceToOwnBlocked() {
+        Player p = new Player();
+        Player p2 = new Player();
+        Square[] squares = mcSquares();
+
+        squares[0].occupy(p);
+        squares[1].occupy(p);
+        squares[2].occupy(p2);
+
+        Line l = new Line(squares);
+
+        assertNull("If a another player has blocked the line it should be null",
+                   l.canPlaceToOwn());
+    }
+
+    @Test
+    public void testCantPlaceToOwnAlreadyOwned() {
+        Player p = new Player();
+
+        Square[] squares = mcSquares();
+
+        squares[0].occupy(p);
+        squares[1].occupy(p);
+        squares[2].occupy(p);
+
+        Line l = new Line(squares);
+
+        assertNull("An already filled line can't be placed in to own",
+                   l.canPlaceToOwn());
+    }
 }
