@@ -140,4 +140,19 @@ public class Grid {
 	Line[] lines = { getDiagonal(1), getDiagonal(2) };
 	return lines;
     }
+
+    public Line[] getAllLines() {
+        Line[] lines = new Line[side * 2 + 2];
+        int offset = side;
+
+        for(int i = 0; i < side; i++) {
+            lines[i] = getHorizontalLine(i);
+            lines[offset + i] = getVerticalLine(i);
+        }
+
+        lines[lines.length - 1] = getDiagonal(1);
+        lines[lines.length - 2] = getDiagonal(2);
+        
+        return lines;
+    }
 }
