@@ -9,6 +9,9 @@ public class Line {
     private Square[] squares;
 
     public Line(Square[] squares) {
+        if(squares.length == 0) {
+            throw new IllegalArgumentException();
+        }
 	this.squares = squares;
     }
 
