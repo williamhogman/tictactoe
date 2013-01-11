@@ -154,6 +154,8 @@ class MockPlayer extends Player {
     }
 
     public boolean doPlace(int i) {
+        assertNotNull("Calling doPlace cant be done prior to being asked to take a turn",
+                      this.game);
 	return game.placePiece(this, i);
     }
 }
