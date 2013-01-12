@@ -27,15 +27,7 @@ public class Game {
     }
 
     private void nextPlayer() {
-	//turn = (turn + 1) % players.length;
-	int next = turn + 1;
-
-	// if the round is completed?
-	if(next >= players.length) {
-	    turn = 0;
-	} else {
-	    turn = next;
-	}
+	turn = (turn + 1) % players.length;
     }
 
     public boolean isStartOfRound() {
