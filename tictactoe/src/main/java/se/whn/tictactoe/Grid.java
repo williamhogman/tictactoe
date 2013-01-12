@@ -2,13 +2,13 @@ package se.whn.tictactoe;
 
 import java.util.List;
 import java.util.ArrayList;
+import java.util.Arrays;
 
 public class Grid {
     private static final int DEFAULT_SIDE = 3;
     private int side;
     private Square[] squares;
     private Line[] lineCache;
-    private boolean allLinesInitialized;
     private int occupied;
 
     private void makeGrid() {
@@ -23,8 +23,8 @@ public class Grid {
     public Grid(int side) {
 	this.side = side;
 	makeGrid();
+        makeLines();
         occupied = 0;
-        lineCache = new Line[side * 2 + 2];
     }
 
     public Grid() {
@@ -82,96 +82,90 @@ public class Grid {
 	return side;
     }
 
-
-    public Line getHorizontalLine(int y){
-        int cacheno = side + y;
-        if(lineCache[cacheno] == null) {
-            Square[] line = new Square[side];
-
-            for(int x = 0; x < side; x++) {
-                line[x] = getSquare(x, y);
-            }
-            lineCache[cacheno] = new Line(line);
+    private void makeLines() {
+        lineCache = new Line[side * 2 + 2];
+        for(int i = 0; i < side; i++) {
+            lineCache[i] = makeVerticalLine(i);
+            lineCache[side + i] = makeHorizontalLine(i);
         }
-	return lineCache[cacheno];
+        lineCache[lineCache.length - 1] = makeDiagonal(1);
+        lineCache[lineCache.length - 2] = makeDiagonal(2);
     }
 
-    public Line getVerticalLine(int x) {
-        if(lineCache[x] == null) {
-            Square[] line = new Square[side];
-
-            for(int y = 0; y < side; y++) {
-                line[y] = getSquare(x, y);
-            }
-            lineCache[x] = new Line(line);
+    private Line makeHorizontalLine(int y){
+        Square[] line = new Square[side];
+        for(int x = 0; x < side; x++) {
+            line[x] = getSquare(x, y);
         }
-        return lineCache[x];
+        return new Line(line);
     }
 
-    public Line getDiagonal(int d) {
-	/* 
-	 * Given a 3by3 grid
-	 * The first diagonal is:
-	 *  (0,0) (1,1) (2,2)
-	 * The second diagonal is:
-	 *  (2,0) (1, 1) (0, 2)
-	 */
-        int cacheno = lineCache.length - d;
-        if(lineCache[cacheno] == null) {
-            Square[] line = new Square[side];
-            
-            if (d == 1) {
-                for(int i = 0; i < side; i++) {
-                    line[i] = getSquare(i, i);
-                }
-            } else if(d == 2) {
-                int offset = side - 1;
-                for(int i = 0; i < side; i++) {
-                    line[i] = getSquare(offset - i, i);
-                }
-            }
-            lineCache[cacheno] =  new Line(line);
+    private Line makeVerticalLine(int x) {
+        Square[] line = new Square[side];
+
+        for(int y = 0; y < side; y++) {
+            line[y] = getSquare(x, y);
         }
-        return lineCache[cacheno];
+        return new Line(line);
+    }
+
+    private Line makeDiagonal(int d) {
+        Square[] line = new Square[side];
+        if (d == 1) {
+            for(int i = 0; i < side; i++) {
+                line[i] = getSquare(i, i);
+            }
+        } else if(d == 2) {
+            int offset = side - 1;
+            for(int i = 0; i < side; i++) {
+                line[i] = getSquare(offset - i, i);
+            }
+        }
+        return new Line(line);
+    }
+
+
+    public Line getHorizontalLine(int i) {
+        return lineCache[side + i];
+    }
+
+    public Line getVerticalLine(int i) {
+        return lineCache[i];
+    }
+
+    public Line getDiagonal(int i) {
+        return lineCache[lineCache.length - i];
     }
 
     public Line[] getVerticalLines() {
-	Line[] lines = new Line[side];
-	for(int i = 0; i < side; i++) {
-	    lines[i] = getVerticalLine(i);
-	}
-	return lines;
+        return Arrays.copyOfRange(lineCache, 0, side);
     }
 
     public Line[] getHorizontalLines() {
-	Line[] lines = new Line[side];
-	for(int i = 0; i < side; i++) {
-	    lines[i] = getHorizontalLine(i);
-	}
-	return lines;	
+        return Arrays.copyOfRange(lineCache, side, (side * 2));
     }
 
     public Line[] getDiagonalLines() {
-	Line[] lines = { getDiagonal(1), getDiagonal(2) };
-	return lines;
+        return Arrays.copyOfRange(lineCache, lineCache.length - 2, lineCache.length);
     }
 
     public Line[] getAllLines() {
-        if(allLinesInitialized) {
-            return lineCache;
-        }
-        Line[] lines = new Line[side * 2 + 2];
-        int offset = side;
+        return lineCache;
+    }
 
-        for(int i = 0; i < side; i++) {
-            lines[i] = getHorizontalLine(i);
-            lines[offset + i] = getVerticalLine(i);
-        }
+    public double[] generateMLVars(Player plr) {
+        double[] out = new double[squares.length];
+        for(int i = 0; i < out.length; i++) {
+            Player occ = squares[i].getOccupant();
+            if(occ == plr) {
+                out[i] = 1.0;
+            } else if(occ == null) {
+                out[i] = 0.0;
+            } else {
+                out[i] = -1.0;
+            }
 
-        lines[lines.length - 1] = getDiagonal(1);
-        lines[lines.length - 2] = getDiagonal(2);
-        
-        allLinesInitialized = true;
-        return lines;
+        }
+        return out;
     }
 }
