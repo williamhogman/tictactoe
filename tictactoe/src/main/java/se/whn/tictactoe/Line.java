@@ -10,15 +10,21 @@ import java.util.List;
  */
 public class Line {
     private Square[] squares;
+    private boolean everOwnable;
 
     public Line(Square[] squares) {
         if(squares.length == 0) {
             throw new IllegalArgumentException();
         }
 	this.squares = squares;
+        everOwnable = true;
     }
 
     public Player getOwner() {
+        if(!everOwnable) {
+            return null;
+        }
+
 	Player owner = null;
 	for(Square sq : squares) {
 	    Player occupant = sq.getOccupant();
@@ -40,10 +46,17 @@ public class Line {
     }
 
     public boolean isOwnable() {
-        return isOwnable(null);
+        if(!everOwnable) {
+            return false;
+        }
+        everOwnable = isOwnable(null);
+        return everOwnable;
     }
 
     public boolean isOwnable(Player candidate) {
+        if(!everOwnable) {
+            return false;
+        }
         for(Square sq : squares) {
             Player occupant = sq.getOccupant();
 
