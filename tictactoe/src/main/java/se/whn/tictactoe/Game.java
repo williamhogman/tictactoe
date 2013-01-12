@@ -65,26 +65,12 @@ public class Game {
     
 
     private Player findWinner() {
-	for(Line l : grid.getVerticalLines()) {
-	    Player owner = l.getOwner();
-	    if(owner != null) {
-		return owner;
-	    }
-	}
-
-	for(Line l : grid.getHorizontalLines()) {
-	    Player owner = l.getOwner();
-	    if(owner != null) {
-		return owner;
-	    }
-	}
-
-	for(Line l : grid.getDiagonalLines()) {
-	    Player owner = l.getOwner();
-	    if(owner != null) {
-		return owner;
-	    }
-	}
+        for(Line l : grid.getAllLines()) {
+            Player owner = l.getOwner();
+            if(owner != null) {
+                return owner;
+            }
+        }
 
 	return null;
     }
