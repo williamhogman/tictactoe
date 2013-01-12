@@ -7,6 +7,9 @@ public class Grid {
     private static final int DEFAULT_SIDE = 3;
     private int side;
     private Square[] squares;
+    private Line[] lineCache;
+    private boolean allLinesInitialized;
+    private int occupied;
 
     private void makeGrid() {
 	// Allocate a side^2 array of squares
@@ -20,6 +23,8 @@ public class Grid {
     public Grid(int side) {
 	this.side = side;
 	makeGrid();
+        occupied = 0;
+        lineCache = new Line[side * 2 + 2];
     }
 
     public Grid() {
@@ -27,49 +32,50 @@ public class Grid {
     }
 
     public Square[] getUnoccupiedSquares() {
-	List<Square> unocc = new ArrayList<Square>();
+        if(occupied == 0) {
+            return squares;
+        }
+        Square[] unocc = new Square[squares.length - occupied];
+        int i = 0;
 	for(Square sq: squares) {
 	    if(!sq.isOccupied()) {
-		unocc.add(sq);
+                unocc[i] = sq;
+                i++;
 	    }
 	}
-	Square[] rtn = new Square[unocc.size()];
-	return unocc.toArray(rtn);
+        return unocc;
     }
 
     public boolean isFull() {
-	for(Square sq : squares) {
+        return occupied == squares.length;
+           /*for(Square sq : squares) {
 	    if(!sq.isOccupied()) {
 		return false;
 	    }
-	}
-	return true;
-    }
-
-    private int coordsToIndex(int x, int y) {
-	return side * y + x;
+            }
+	return true;*/
     }
 
     public boolean occupy(int index, Player plr) {
-	return getSquare(index).occupy(plr);
+	boolean res =  getSquare(index).occupy(plr);
+        if(res) {
+            occupied++;
+        }
+        return res;
     }
 
 
     public boolean occupy(int x, int y, Player plr) {
-	return occupy(coordsToIndex(x, y), plr);
+	return occupy(side * x + y, plr);
     }
 
 
     public Square getSquare(int index) {
-	// TOOD: use a goddamn custom exception
-	if(index < 0 && index >= squares.length) {
-	    throw new IndexOutOfBoundsException("Square not in range");
-	}
 	return squares[index];
     }
 
     public Square getSquare(int x, int y) {
-	return getSquare(coordsToIndex(x, y));
+        return squares[side * y + x];
     }
 
     public int getSide() {
@@ -78,23 +84,28 @@ public class Grid {
 
 
     public Line getHorizontalLine(int y){
-	Square[] line = new Square[side];
+        int cacheno = side + y;
+        if(lineCache[cacheno] == null) {
+            Square[] line = new Square[side];
 
-	for(int x = 0; x < side; x++) {
-	    line[x] = getSquare(x, y);
-	}
-
-	return new Line(line);
+            for(int x = 0; x < side; x++) {
+                line[x] = getSquare(x, y);
+            }
+            lineCache[cacheno] = new Line(line);
+        }
+	return lineCache[cacheno];
     }
 
     public Line getVerticalLine(int x) {
-	Square[] line = new Square[side];
+        if(lineCache[x] == null) {
+            Square[] line = new Square[side];
 
-	for(int y = 0; y < side; y++) {
-	    line[y] = getSquare(x, y);
-	}
-
-	return new Line(line);
+            for(int y = 0; y < side; y++) {
+                line[y] = getSquare(x, y);
+            }
+            lineCache[x] = new Line(line);
+        }
+        return lineCache[x];
     }
 
     public Line getDiagonal(int d) {
@@ -105,19 +116,23 @@ public class Grid {
 	 * The second diagonal is:
 	 *  (2,0) (1, 1) (0, 2)
 	 */
-	Square[] line = new Square[side];
-
-	if (d == 1) {
-	    for(int i = 0; i < side; i++) {
-		line[i] = getSquare(i, i);
-	    }
-	} else if(d == 2) {
-            int offset = side - 1;
-	    for(int i = 0; i < side; i++) {
-		line[i] = getSquare(offset - i, i);
-	    }
-	}
-	return new Line(line);
+        int cacheno = lineCache.length - d;
+        if(lineCache[cacheno] == null) {
+            Square[] line = new Square[side];
+            
+            if (d == 1) {
+                for(int i = 0; i < side; i++) {
+                    line[i] = getSquare(i, i);
+                }
+            } else if(d == 2) {
+                int offset = side - 1;
+                for(int i = 0; i < side; i++) {
+                    line[i] = getSquare(offset - i, i);
+                }
+            }
+            lineCache[cacheno] =  new Line(line);
+        }
+        return lineCache[cacheno];
     }
 
     public Line[] getVerticalLines() {
@@ -142,6 +157,9 @@ public class Grid {
     }
 
     public Line[] getAllLines() {
+        if(allLinesInitialized) {
+            return lineCache;
+        }
         Line[] lines = new Line[side * 2 + 2];
         int offset = side;
 
@@ -153,6 +171,7 @@ public class Grid {
         lines[lines.length - 1] = getDiagonal(1);
         lines[lines.length - 2] = getDiagonal(2);
         
+        allLinesInitialized = true;
         return lines;
     }
 }
