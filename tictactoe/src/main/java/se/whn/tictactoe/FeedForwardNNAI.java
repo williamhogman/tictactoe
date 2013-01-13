@@ -67,14 +67,14 @@ class NNBuilder {
         Player p2 = new Player(new RandomAI());
 
         // play 100k games as the first to place
-        for(int i = 0; i < 150000; i++) {
+        for(int i = 0; i < 100000; i++) {
             Game g = new Game(p1, p2);
             while(!g.isGameOver()) {
                 g.playTurn();
             }
         }
         // play 100k games as second to place.
-        for(int i = 0; i < 150000; i++) {
+        for(int i = 0; i < 100000; i++) {
             Game g = new Game(p2, p1);
             while(!g.isGameOver()) {
                 g.playTurn();
@@ -90,7 +90,7 @@ class NNBuilder {
         System.out.println("trainset gen");
         BasicMLDataSet trainset = generateTrainingSet();
         System.out.println("trainset train");
-        EncogUtility.trainToError(method, trainset, 0.06);
+        EncogUtility.trainToError(method, trainset, 0.065);
     }
 
     public BasicNetwork getNetwork() {
