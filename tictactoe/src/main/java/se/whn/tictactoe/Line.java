@@ -145,4 +145,18 @@ public class Line {
         }
         return false;
     }
+
+    public boolean opponentHasAny(Player plr) {
+        if(!everOwnable) {
+            return true;
+        }
+
+        for(Square s : squares) {
+            final Player occ = s.getOccupant();
+            if(occ != null && occ != plr) {
+                return true;
+            }
+        }
+        return false;
+    }
 }
