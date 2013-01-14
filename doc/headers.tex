@@ -1,0 +1,28 @@
+
+\pagestyle{plain}
+\headstyles{komalike}
+\nonzeroparskip
+\setlength{\parindent}{0pt}
+\checkandfixthelayout
+
+
+\usepackage{ifpdf}
+\ifpdf
+	\usepackage[hidelinks]{hyperref}
+\else
+	\usepackage{url}
+\fi
+
+\usepackage{ifthen}
+
+\newcommand{\assignmentNumber}[1]{\def \assignmentNumberValue {#1}}
+
+\newcommand{\addressformatter}[1]{\ifthenelse{\equal{#1}{}}{}{(#1)}}
+
+\newcommand{\authorOne}[3]{\def \authorOneLine {#1 #2 \addressformatter{#3}\\}}
+\newcommand{\authorTwo}[3]{\def \authorTwoLine {#1 #2 \addressformatter{#3}\\}}
+\newcommand{\authorThree}[3]{\def \authorThreeLine {#1 #2 \addressformatter{#3}\\}}
+
+
+% Döljer en varning
+\author{}

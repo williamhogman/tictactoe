@@ -1,0 +1,45 @@
+%Ok, jag vet att vissa av dessa är standard, men jag vill vara säker
+\documentclass[a4paper,11pt,oneside]{memoir}
+
+\usepackage[swedish]{babel}
+\usepackage[T1]{fontenc}
+\usepackage[latin1]{inputenc}
+
+\usepackage{graphicx}
+\usepackage{cite}
+\usepackage{url}
+\usepackage{listings}
+\lstset{language=Java,numbers=left,frame=L,floatplacement=hbtp}
+\def \lstlistingname {Kodexempel}
+
+\input{headers}
+
+\assignmentNumber{2}
+\title{Projektets namn}
+
+\authorOne{Förnamn1}{Efternamn1}{anvnamn1}
+\authorTwo{Förnamn2}{Efternamn2}{anvnamn2}
+\authorThree{}{}{}
+
+\begin{document}
+
+\frontmatter
+\input{titlepage}
+\tableofcontents
+
+\mainmatter
+
+\input{inledning}
+\input{design}
+\input{kravuppfyllnad}
+\input{reflektion}
+\input{mallelement}
+
+\bibliographystyle{plain}
+\bibliography{bibtex}
+\bibdata{bibtex}
+
+\appendix
+% \input{bilaga}
+
+\end{document}
