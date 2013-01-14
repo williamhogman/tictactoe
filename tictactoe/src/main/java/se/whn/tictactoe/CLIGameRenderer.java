@@ -53,7 +53,9 @@ public class CLIGameRenderer{
     }
 
     public void render() {
+        output("------------------\n");
 	output(generateGridString());
+        output("------------------");
 	newline();
 	if(game.isGameOver()) {
 	    output(generateStateString());

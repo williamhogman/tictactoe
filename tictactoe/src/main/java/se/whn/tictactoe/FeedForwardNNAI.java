@@ -140,11 +140,6 @@ public class FeedForwardNNAI extends Actor {
             }
         }
 
-        boolean success = g.placePiece(plr, maxima);
-
-        if(!success) {
-            System.out.println("boom goes the dynamite");
-            throw new RuntimeException("couldn't place... nn");
-        }
+        g.placePiece(plr, maxima);
     }
 }

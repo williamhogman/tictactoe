@@ -48,7 +48,7 @@ public class Game {
 	return !waiting;
     }
 
-    public boolean placePiece(Player p, int square) {
+    public void placePiece(Player p, int square) {
 	if(getActivePlayer() != p) {
 	    throw new RuntimeException("Not our turn");
 	}
@@ -57,9 +57,9 @@ public class Game {
 	    waiting = false;
 	    updateGameState();
 	    nextPlayer();
-	    return true;
-	}
-	return false;
+	} else {
+            throw new RuntimeException("tried to place in an invalid location!");
+        }
     }
 
     

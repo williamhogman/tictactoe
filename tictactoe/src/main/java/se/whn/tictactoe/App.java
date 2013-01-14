@@ -10,13 +10,12 @@ public class App
 	App app = new App();
     }
 
-    public App() {
-	//runAiGame();
-        //testAIStrength(new AlgoAI());
-        testAIStrength(new FeedForwardNNAI());
-        //findLosingGame();
-        //findLostingGameVHeuristicAI();
+    private App() {
+        CLI c = new CLI();
+        c.run();
     }
+
+
 
 
     public void runAiGame() {
