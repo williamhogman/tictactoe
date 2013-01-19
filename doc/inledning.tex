@@ -1,4 +1,40 @@
 \chapter{Inledning}
 
-Inledningens syfte är att leda in läsaren i arbetet. Här ska ni alltså ge en kort beskrivning av systemet och dess funktionalitet. Det finns inga speciella krav på omfattning, men 1/2--1 sida bör vara ganska lagom.
+Jag har byggt ett TicTacToe, även kallat tre-i-rad spel. Spelet går ut
+på att två spelare placerar pjäser i ett nio rutors kvadratiskt rutnät
+bestånde tre rader och tre kolumner. Ett spel är över när alla rutor
+antingen när alla nio rutor har pjäser eller när en enskild spelare
+har plaserat sina pjäser i alla rutorna i en vertikal linje,
+horizontell linje eller en av de två av diagonalerna. Vinnaren är den
+spelaren som kontrollerar en av de ovannämnda linjerna. Om ingen
+vinnare kan koras så anses spelet vara oavgjort.
 
+\section{Aktörer}
+Spelet inkluderar tre stycken datorstyrda aktörer, samt en som styrs
+via ett textgränssnitt. 
+
+\paragraph{RandomAI} Valet av ruta att placera pjäsen i helt är helt
+(pseudo-)slumpmässigt. Denna aktör är användbar för att testa andra
+aktörer.
+
+\paragraph{FeedForwardNNAI} Denna aktör använder ett
+Feed-Forward neuralt nätverk bestånde av nio neuron i input lagret,
+tre i det gömda lagret, samt nio i output lagret. Denna aktör
+presterar helt klart bättre än slumpen men spelar inte lika bra som en
+typisk person. Det är dock värt att nämna att en människa har ungefär
+85 miljarder neuron jämfört med de arton neuron som används av mitt
+program.
+
+\paragraph{AlgoAI} Denna aktör implementerar på ett rent algoritmiskt
+sätt. Den tillämpar ett antal regler. I första hand försöker den hitta
+ett läge där den kan placera en pjäs för att få tre-i-rad, alltså att
+vinna. I andra hand försöker den att blockera motståndaren från att
+lägga tre pjäser i rad. Den tredje regeln i prioriterings ordningen är
+att försöka skapa ett läge där spelaren får två möjligheter till att
+vinna nästa tur. Ett exempel på detta är ett läge där man håller det
+övre vänstra, övre högra, samt nedre högra hörnet. Då motståndare inte
+kan blockera två möjligheter på en tur så har man därmed vunnit. Om
+ingen sådan möjlighet finns så försöker vi blockera motståndarens
+möjligheter att utföra detta. Om inget av detta är möjligt placerar vi
+i första hand mitten, därefter hörnen, och om detta ej är möjligt,
+sidorna.

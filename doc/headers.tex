@@ -19,7 +19,8 @@
 
 \newcommand{\addressformatter}[1]{\ifthenelse{\equal{#1}{}}{}{(#1)}}
 
-\newcommand{\authorOne}[3]{\def \authorOneLine {#1 #2 \addressformatter{#3}\\}}
+\newcommand{\authorOne}[4]{\def \authorOneLine {#1
+#2 \addressformatter{#3}\\ \href{mailto:#4}{\nolinkurl{#4}}}}
 \newcommand{\authorTwo}[3]{\def \authorTwoLine {#1 #2 \addressformatter{#3}\\}}
 \newcommand{\authorThree}[3]{\def \authorThreeLine {#1 #2 \addressformatter{#3}\\}}
 

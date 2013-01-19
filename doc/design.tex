@@ -1,3 +1,35 @@
 \chapter{Design}
 
-Här ska ni beskriva designen av systemet. Ett lämpligt format är ett klassdiagram kompletterat med en kort textuell beskrivning. Var noga med att redovisa vilka delar ni har gjort själva och vilka som är tagna från Java eller från andra bibliotek. För ett vanligt projekt bör 2 sidor räcka mer än väl för denna del. Har man en avancerad design 
+\begin{figure}[htbp]
+	\begin{center}
+	\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{game}
+	\end{center}
+	
+	\caption{Klasser ansvariga för spelregler}
+	\label{fig:game}
+\end{figure}
+
+\begin{figure}[htbp]
+	\begin{center}
+	\includegraphics[width=\textwidth,height=\textheight,keepaspectratio]{actor}
+	\end{center}
+	
+	\caption{Aktörssystemet}
+	\label{fig:actor}
+\end{figure}
+
+\ref{fig:game} visar klasserna som är ansvariga för spelreglerna. Game
+är ansvarig för att hålla reda på vems tur det är, och om någon har
+vunnit. Gird ansvarar för att skapa och förvara Square och Line
+instanser. Square är ansvarig för att att hålla kolla på vilken
+spelare som placerat en pjäs i den rutan. Line håller koll på linjerna
+i rutnätet.
+
+
+
+\ref{fig:actor} visar uppbyggnaden för aktörssystemet. Player klassen
+är ansvarig för att delegerar information mellan aktörern och spelet.
+En spelares aktör kan även bytas ut under spelets gång.
+
+
+

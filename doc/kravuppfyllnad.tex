@@ -1,11 +1,51 @@
 \chapter{Kravuppfyllnad}
 
-Här ska ni visa att ni uppfyller de formella kraven på uppgiften. Vissa av dessa har redan täckts av de föregående delarna så håller till de krav som listas nedan. Normalt räcker det med ett eller ett par stycken, och kanske ett exempel, per krav som visar att ni har tänkt på det och uppfyller det. 
+Nedan följer de krav som skrevs i uppgiften, men även ett stycke om
+testning.
 
 \section{Samverkande klasser}
+Klaserna i projektet samverkar i högsta grad. En aktör (Actor)
+kontrollerar en spelare (Player). En spelare deltar i ett spel (Game)
+som spelas i ett rutnät (Grid). Rutnätet använder rutor (Square) för
+att hålla kolla på vem som har placerat pjäser var. Rutnätet
+innefattar också Linjer (Line) som används för att hålla koll på
+vertikala, horizontella, linjer.
 
 \section{Arv och polymorfism}
+Arv och polymorfism används för att implementera olika sorters
+aktörer. Samtliga aktörer är subklasser av den abstrakta klassen Actor
+som specificerar en method som kallas på av Player. De olika
+subklasserna har olika betenden för hur de ska spela.
+\lstinputlisting{RandomAIEx.java}
 
 \section{Namngivning}
+Javas namngivnings regler har följts till fullo, packet är under en
+domän som kontrolleras av mig, vilket hindrar namnkollisioner.
+Variabler och methoder är i \emph{lowerCamelCase}, med förkortningar i
+versaler. Klasser i \emph{UpperCamelCase}, även här med förkortningar i
+versaler. Jag har även försökt att undvika namn som består av flera
+ord då dessa kan tyda på dåligt genomtänkt design eller bristande
+terminologi.
 
 \section{Korrekta skyddsnivåer}
+
+Det finns inga publika fält i projektet utan samtliga getter metoder
+används för att läsa av värden. Detta gömmer de under liggande
+variablerna vilket leder till att det är enkelt att ändra på hur den
+underliggande förvaringen går till. Nedan följer ett förenklat exempel
+av Square klassen.
+
+\lstinputlisting{SquareSimp.java}
+
+\section{Testning}
+
+Programets delar testas av ett femtiotal Unit-test som används för att
+verifiera programets funktionalitet. Dessa testa erbjuder inte
+fullständig täckning av koden, det saknas helt tester för aktörerna
+och gränssnitt. Däremot så är täckningen nästan fullständig för koden som
+implementerar domänmodellen.
+
+\par JUnit4 tillsamans med Apache Maven används för testerna. Maven
+kommandot \texttt{mvn test} kan användas för att köra samtliga test.
+
+
