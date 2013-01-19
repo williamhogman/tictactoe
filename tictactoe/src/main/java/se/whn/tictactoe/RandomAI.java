@@ -1,6 +1,5 @@
 package se.whn.tictactoe;
 
-import java.util.Collections;
 import java.util.Random;
 
 public class RandomAI extends Actor {

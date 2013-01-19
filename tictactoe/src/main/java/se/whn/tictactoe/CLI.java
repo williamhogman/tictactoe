@@ -119,9 +119,10 @@ public class CLI {
         message((total / 1000000.0) +" ms");
     }
 
-    private void playCommand() {
-        Player p1 = new Player(new CLIActor(this));
-        Player p2 = new Player(new AlgoAI());
+
+    private void playGame(Actor a1, Actor a2) {
+        Player p1 = new Player(a1);
+        Player p2 = new Player(a2);
 
         p1.setRenderChar('X');
         p2.setRenderChar('O');
@@ -135,6 +136,28 @@ public class CLI {
             g.playTurn();
             renderer.render();
         }
+    }
+
+    private void playCommand() {
+        playGame(new CLIActor(this), new AlgoAI());
+    }
+
+    private void playNNCommand() {
+        Actor act = null;
+
+        try {
+            Class cls = Class.forName("se.whn.tictactoe.FeedForwardNNAI");
+            act = (Actor) cls.newInstance();
+        } catch(ClassNotFoundException ex) {
+            message("Couldn't find NeuralNetwork AI, did you include it in the build?");
+            return;
+        } catch (IllegalAccessException ex) {
+            message("IllegalAcccessException, this shouldn't happend");
+        } catch(InstantiationException ex) {
+            message("InstantiationException, this shouldn't happend");
+        }
+
+        playGame(new CLIActor(this), act);
     }
 }
 
